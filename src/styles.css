@@ -1,0 +1,261 @@
+:root {
+  color-scheme: light;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #d9e2f2;
+  background: #08111f;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top, rgba(67, 107, 183, 0.35), transparent 30%),
+    linear-gradient(180deg, #09111c 0%, #0f1c30 100%);
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.dashboard-shell {
+  display: grid;
+  grid-template-columns: minmax(300px, 360px) 1fr;
+  gap: 24px;
+  padding: 24px;
+}
+
+.panel {
+  border: 1px solid rgba(166, 189, 222, 0.18);
+  background: rgba(11, 23, 40, 0.88);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.28);
+}
+
+.vehicle-list {
+  padding: 20px;
+  position: sticky;
+  top: 24px;
+  height: fit-content;
+}
+
+.section-heading {
+  margin-bottom: 16px;
+}
+
+.section-heading h2,
+.section-heading h3,
+.hero h1 {
+  margin: 0;
+  color: #f7fbff;
+}
+
+.section-heading p,
+.hero-copy,
+.calculator-result p,
+.vehicle-card p,
+.vehicle-card span,
+.eyebrow,
+small {
+  color: #93a6c4;
+}
+
+.filters {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.filters label,
+.calculator-inputs label {
+  display: grid;
+  gap: 8px;
+  font-size: 0.95rem;
+  color: #c2d1e9;
+}
+
+select,
+input {
+  width: 100%;
+  border: 1px solid rgba(174, 197, 232, 0.18);
+  background: #0f1c30;
+  color: #f2f7ff;
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+
+.vehicle-card-list {
+  display: grid;
+  gap: 12px;
+}
+
+.vehicle-card {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  width: 100%;
+  text-align: left;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(174, 197, 232, 0.14);
+  background: rgba(15, 28, 48, 0.95);
+  color: inherit;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.vehicle-card:hover,
+.vehicle-card.selected {
+  transform: translateY(-1px);
+  border-color: #63a6ff;
+  background: rgba(20, 39, 66, 0.98);
+}
+
+.vehicle-card h3,
+.hero-price-block strong,
+.metric-card strong,
+.calculator-result strong {
+  margin: 0 0 4px;
+  color: #f7fbff;
+}
+
+.vehicle-detail-view {
+  display: grid;
+  gap: 20px;
+}
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 24px;
+}
+
+.hero-price-block {
+  min-width: 220px;
+  padding: 20px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(53, 94, 163, 0.28), rgba(13, 29, 52, 0.65));
+}
+
+.hero-price-block span,
+.metric-card span,
+.calculator-result span {
+  display: block;
+  color: #93a6c4;
+  margin-bottom: 6px;
+}
+
+.metrics-grid,
+.detail-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.metrics-grid {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.detail-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.metric-card,
+.calculator-result {
+  padding: 18px;
+  border-radius: 18px;
+  background: rgba(12, 27, 46, 0.95);
+  border: 1px solid rgba(174, 197, 232, 0.12);
+}
+
+.detail-grid > .panel,
+.calculator-panel {
+  padding: 20px;
+}
+
+.detail-list,
+.tag-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.detail-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(174, 197, 232, 0.1);
+}
+
+.detail-list li span {
+  color: #93a6c4;
+}
+
+.detail-list li strong {
+  text-align: right;
+  color: #f7fbff;
+}
+
+.tag-list li,
+.pill {
+  border: 1px solid rgba(120, 159, 219, 0.2);
+  background: rgba(16, 35, 60, 0.88);
+  border-radius: 999px;
+  padding: 10px 14px;
+  width: fit-content;
+}
+
+.smart-tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.calculator-inputs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.empty-state {
+  padding: 32px;
+  place-content: center;
+}
+
+@media (max-width: 1100px) {
+  .dashboard-shell,
+  .detail-grid,
+  .metrics-grid,
+  .calculator-inputs {
+    grid-template-columns: 1fr;
+  }
+
+  .vehicle-list {
+    position: static;
+  }
+
+  .hero {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,123 @@
+[
+  {
+    "id": "f150-lightning-2024",
+    "core_specs": {
+      "make": "Ford",
+      "model": "F-150 Lightning",
+      "year": 2024,
+      "trim_levels": ["Pro", "XLT", "Flash", "Lariat", "Platinum"],
+      "starting_msrp": 54995,
+      "fully_loaded_msrp": 92995,
+      "powertrain_type": "BEV",
+      "seating_capacity": 5,
+      "cargo_volume_cu_ft": 52.8,
+      "ground_clearance_inches": 8.4
+    },
+    "analytical_data": {
+      "epa_estimated_mpg": {
+        "city_mpge": 78,
+        "highway_mpge": 63,
+        "combined_mpge": 70,
+        "range_miles": 320
+      },
+      "battery_capacity_kwh": 131,
+      "max_payload_lbs": 2235,
+      "max_towing_lbs": 10000,
+      "depreciation_estimates": [
+        { "year": 3, "retained_value_percent": 63 },
+        { "year": 5, "retained_value_percent": 49 }
+      ]
+    },
+    "engineering_details": {
+      "platform_architecture": "Ford T3-derived body-on-frame EV truck architecture",
+      "assembly_plant": "Rouge Electric Vehicle Center, Dearborn, Michigan, USA",
+      "unique_features": [
+        "Pro Power Onboard",
+        "Drainable Mega Power Frunk",
+        "BlueCruise hands-free highway driving",
+        "Intelligent Backup Power"
+      ]
+    },
+    "smart_tags": ["The Hauler", "The Tech-Forward Truck", "The Power Outage Planner"]
+  },
+  {
+    "id": "maverick-hybrid-2024",
+    "core_specs": {
+      "make": "Ford",
+      "model": "Maverick Hybrid",
+      "year": 2024,
+      "trim_levels": ["XL", "XLT", "Lariat"],
+      "starting_msrp": 26420,
+      "fully_loaded_msrp": 37945,
+      "powertrain_type": "HEV",
+      "seating_capacity": 5,
+      "cargo_volume_cu_ft": 33.3,
+      "ground_clearance_inches": 8.3
+    },
+    "analytical_data": {
+      "epa_estimated_mpg": {
+        "city_mpg": 42,
+        "highway_mpg": 33,
+        "combined_mpg": 37
+      },
+      "battery_capacity_kwh": 1.1,
+      "max_payload_lbs": 1500,
+      "max_towing_lbs": 4000,
+      "depreciation_estimates": [
+        { "year": 3, "retained_value_percent": 70 },
+        { "year": 5, "retained_value_percent": 58 }
+      ]
+    },
+    "engineering_details": {
+      "platform_architecture": "Ford C2 unibody truck platform",
+      "assembly_plant": "Hermosillo Stamping and Assembly Plant, Sonora, Mexico",
+      "unique_features": [
+        "FLEXBED multi-position storage system",
+        "Available 2K towing package on hybrid AWD",
+        "Compact truck footprint for urban maneuverability",
+        "Standard full hybrid powertrain"
+      ]
+    },
+    "smart_tags": ["The Commuter", "The Budget Multitasker", "The Weekend DIYer"]
+  },
+  {
+    "id": "bronco-2024",
+    "core_specs": {
+      "make": "Ford",
+      "model": "Bronco",
+      "year": 2024,
+      "trim_levels": ["Base", "Big Bend", "Black Diamond", "Outer Banks", "Badlands", "Heritage", "Wildtrak", "Raptor"],
+      "starting_msrp": 39130,
+      "fully_loaded_msrp": 90500,
+      "powertrain_type": "ICE",
+      "seating_capacity": 5,
+      "cargo_volume_cu_ft": 83,
+      "ground_clearance_inches": 13.1
+    },
+    "analytical_data": {
+      "epa_estimated_mpg": {
+        "city_mpg": 20,
+        "highway_mpg": 21,
+        "combined_mpg": 20
+      },
+      "battery_capacity_kwh": null,
+      "max_payload_lbs": 1370,
+      "max_towing_lbs": 4500,
+      "depreciation_estimates": [
+        { "year": 3, "retained_value_percent": 68 },
+        { "year": 5, "retained_value_percent": 55 }
+      ]
+    },
+    "engineering_details": {
+      "platform_architecture": "T6 body-on-frame off-road SUV platform",
+      "assembly_plant": "Michigan Assembly Plant, Wayne, Michigan, USA",
+      "unique_features": [
+        "Removable doors and roof panels",
+        "G.O.A.T. Modes terrain management",
+        "Available disconnecting stabilizer bar",
+        "Trail Turn Assist"
+      ]
+    },
+    "smart_tags": ["The Weekend Warrior", "The Trail Explorer", "The Open-Air Adventurer"]
+  }
+]

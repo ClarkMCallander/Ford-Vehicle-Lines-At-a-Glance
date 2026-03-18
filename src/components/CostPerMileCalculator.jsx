@@ -1,95 +1,77 @@
 import { useMemo, useState } from 'react';
 
-const MILES_TO_ANALYZE = 10000;
-const KWH_PER_GALLON_EQUIVALENT = 33.7;
+const ANNUAL_MILES = 10000;
 
-function calculateCostEstimate(vehicle, gasPrice, electricityPrice) {
-  const efficiency = vehicle.analytical_data.epa_estimated_mpg;
-  const powertrain = vehicle.core_specs.powertrain_type;
-
-  if (powertrain === 'BEV') {
-    const kwhPer100Miles = (100 * KWH_PER_GALLON_EQUIVALENT) / efficiency.combined_mpge;
-    const totalKwh = (MILES_TO_ANALYZE / 100) * kwhPer100Miles;
-    return {
-      energyType: 'electricity',
-      unitsConsumed: totalKwh,
-      estimatedCost: totalKwh * electricityPrice,
-      efficiencyLabel: `${efficiency.combined_mpge} combined MPGe`,
-    };
-  }
-
-  const gallonsUsed = MILES_TO_ANALYZE / efficiency.combined_mpg;
-  return {
-    energyType: 'gasoline',
-    unitsConsumed: gallonsUsed,
-    estimatedCost: gallonsUsed * gasPrice,
-    efficiencyLabel: `${efficiency.combined_mpg} combined MPG`,
-  };
+function formatCurrency(value) {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits: 0,
+  }).format(value);
 }
 
-/**
- * Ownership utility component that translates efficiency into a concrete
- * 10,000-mile spend estimate. The output shape is intentionally simple so it
- * can later feed charting libraries or comparison tables.
- */
-function CostPerMileCalculator({ vehicle }) {
-  const [gasPrice, setGasPrice] = useState(3.5);
+export default function CostPerMileCalculator({ vehicle }) {
+  const [gasPrice, setGasPrice] = useState(3.75);
   const [electricityPrice, setElectricityPrice] = useState(0.16);
 
-  const result = useMemo(
-    () => calculateCostEstimate(vehicle, Number(gasPrice), Number(electricityPrice)),
-    [vehicle, gasPrice, electricityPrice]
-  );
+  const { powertrain_type } = vehicle.core_specs;
+  const efficiency = vehicle.analytical_data.epa_estimated_mpg;
+
+  const calculation = useMemo(() => {
+    if (powertrain_type === 'BEV') {
+      const kwhPer100Miles = efficiency.kwh_per_100_miles;
+      const annualKwhUse = (ANNUAL_MILES / 100) * kwhPer100Miles;
+      return {
+        energyLabel: 'Estimated electricity cost',
+        annualFuelCost: annualKwhUse * electricityPrice,
+        usageSummary: `${annualKwhUse.toFixed(0)} kWh over ${ANNUAL_MILES.toLocaleString()} miles`,
+      };
+    }
+
+    const gallonsUsed = ANNUAL_MILES / efficiency.combined;
+    return {
+      energyLabel: 'Estimated fuel cost',
+      annualFuelCost: gallonsUsed * gasPrice,
+      usageSummary: `${gallonsUsed.toFixed(0)} gallons over ${ANNUAL_MILES.toLocaleString()} miles`,
+    };
+  }, [efficiency, electricityPrice, gasPrice, powertrain_type]);
 
   return (
-    <section className="data-card calculator-card">
-      <div className="panel-header">
-        <div>
-          <h3>Cost Per Mile Calculator</h3>
-          <p>
-            Estimate the energy cost to drive <strong>{MILES_TO_ANALYZE.toLocaleString()}</strong>{' '}
-            miles using local energy pricing inputs.
-          </p>
-        </div>
+    <section className="panel calculator-panel">
+      <div className="section-heading">
+        <h3>Cost-per-10,000-mile calculator</h3>
+        <p>Quick local fuel-cost scenario modeling for the selected vehicle.</p>
       </div>
 
-      <div className="calculator-grid">
+      <div className="calculator-inputs">
         <label>
-          Local gas price ($/gal)
+          Gas price / gallon
           <input
             type="number"
             min="0"
             step="0.01"
             value={gasPrice}
-            onChange={(event) => setGasPrice(event.target.value)}
+            onChange={(event) => setGasPrice(Number(event.target.value))}
           />
         </label>
 
         <label>
-          Local electricity cost ($/kWh)
+          Electricity cost / kWh
           <input
             type="number"
             min="0"
             step="0.01"
             value={electricityPrice}
-            onChange={(event) => setElectricityPrice(event.target.value)}
+            onChange={(event) => setElectricityPrice(Number(event.target.value))}
           />
         </label>
       </div>
 
       <div className="calculator-result">
-        <p className="result-label">Estimated energy spend</p>
-        <strong>${result.estimatedCost.toFixed(0)}</strong>
-        <p>
-          Based on {result.efficiencyLabel}, this vehicle would consume approximately{' '}
-          <strong>
-            {result.unitsConsumed.toFixed(1)} {result.energyType === 'electricity' ? 'kWh' : 'gallons'}
-          </strong>{' '}
-          over {MILES_TO_ANALYZE.toLocaleString()} miles.
-        </p>
+        <span>{calculation.energyLabel}</span>
+        <strong>{formatCurrency(calculation.annualFuelCost)}</strong>
+        <p>{calculation.usageSummary}</p>
       </div>
     </section>
   );
 }
-
-export default CostPerMileCalculator;

@@ -1,68 +1,51 @@
 import { useMemo, useState } from 'react';
-import VehicleList from './VehicleList';
+import vehiclesData from '../data/vehicles.json';
 import VehicleDetailView from './VehicleDetailView';
+import VehicleList from './VehicleList';
 
-/**
- * Coordinates the vehicle dataset, active filters, and the selected vehicle.
- * This top-level state layout makes it easy to add charting, URL sync,
- * or remote API data sources later.
- */
-function VehicleDashboard({ initialVehicles }) {
-  const [selectedVehicleId, setSelectedVehicleId] = useState(initialVehicles[0]?.id ?? null);
-  const [powertrainFilter, setPowertrainFilter] = useState('ALL');
-  const [tagFilter, setTagFilter] = useState('ALL');
+export default function VehicleDashboard() {
+  const [selectedPowertrain, setSelectedPowertrain] = useState('All');
+  const [selectedTag, setSelectedTag] = useState('All');
+  const [selectedVehicleId, setSelectedVehicleId] = useState(vehiclesData[0].id);
 
   const availableTags = useMemo(() => {
-    const tags = new Set();
-    initialVehicles.forEach((vehicle) => {
-      vehicle.smart_tags.forEach((tag) => tags.add(tag));
-    });
-    return ['ALL', ...Array.from(tags).sort()];
-  }, [initialVehicles]);
+    return [...new Set(vehiclesData.flatMap((vehicle) => vehicle.smart_tags))].sort();
+  }, []);
 
   const filteredVehicles = useMemo(() => {
-    return initialVehicles.filter((vehicle) => {
+    return vehiclesData.filter((vehicle) => {
       const matchesPowertrain =
-        powertrainFilter === 'ALL' || vehicle.core_specs.powertrain_type === powertrainFilter;
-      const matchesTag = tagFilter === 'ALL' || vehicle.smart_tags.includes(tagFilter);
+        selectedPowertrain === 'All' || vehicle.core_specs.powertrain_type === selectedPowertrain;
+      const matchesTag = selectedTag === 'All' || vehicle.smart_tags.includes(selectedTag);
       return matchesPowertrain && matchesTag;
     });
-  }, [initialVehicles, powertrainFilter, tagFilter]);
+  }, [selectedPowertrain, selectedTag]);
 
   const selectedVehicle = useMemo(() => {
-    const matchingVehicle = filteredVehicles.find((vehicle) => vehicle.id === selectedVehicleId);
-    return matchingVehicle ?? filteredVehicles[0] ?? null;
+    const stillVisible = filteredVehicles.find((vehicle) => vehicle.id === selectedVehicleId);
+    return stillVisible ?? filteredVehicles[0] ?? vehiclesData[0];
   }, [filteredVehicles, selectedVehicleId]);
 
   return (
-    <main className="dashboard-shell">
-      <header className="dashboard-header">
-        <div>
-          <p className="eyebrow">Ford Vehicle Lines at a Glance</p>
-          <h1>Analytical Vehicle Comparison Dashboard</h1>
-          <p className="dashboard-subtitle">
-            Compare Ford nameplates through specs, engineering context, and cost-per-mile
-            ownership signals.
-          </p>
-        </div>
-      </header>
-
-      <section className="dashboard-layout">
-        <VehicleList
-          vehicles={filteredVehicles}
-          selectedVehicleId={selectedVehicle?.id}
-          onSelectVehicle={setSelectedVehicleId}
-          powertrainFilter={powertrainFilter}
-          onPowertrainFilterChange={setPowertrainFilter}
-          tagFilter={tagFilter}
-          onTagFilterChange={setTagFilter}
-          availableTags={availableTags}
-        />
-
+    <div className="dashboard-shell">
+      <VehicleList
+        vehicles={filteredVehicles}
+        selectedVehicleId={selectedVehicle?.id}
+        selectedPowertrain={selectedPowertrain}
+        selectedTag={selectedTag}
+        availableTags={availableTags}
+        onPowertrainChange={setSelectedPowertrain}
+        onTagChange={setSelectedTag}
+        onSelectVehicle={setSelectedVehicleId}
+      />
+      {selectedVehicle ? (
         <VehicleDetailView vehicle={selectedVehicle} />
-      </section>
-    </main>
+      ) : (
+        <main className="vehicle-detail-view empty-state panel">
+          <h2>No vehicles match the current filters.</h2>
+          <p>Adjust powertrain or smart-tag criteria to restore results.</p>
+        </main>
+      )}
+    </div>
   );
 }
-
-export default VehicleDashboard;

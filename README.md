@@ -45,6 +45,8 @@ In GitHub:
 3. Push to `main`.
 4. GitHub will run `.github/workflows/deploy-pages.yml` and publish the built `dist/` output.
 
+The workflow intentionally uses `npm install` without npm cache configuration so it works even when this repository does not include a committed `package-lock.json`.
+
 ### Expected published URL
 
 ```text
